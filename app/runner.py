@@ -1,4 +1,4 @@
-# app/runner.py
+#app/runner.py
 from __future__ import annotations
 import time
 from pathlib import Path
@@ -92,7 +92,10 @@ def run_realtime(engine: VisionEngine, backend: BackendClient, s: Settings, src:
         if not ok or frame is None:
             if is_live_source:
                 print("WARN: live frame kelmadi. reconnect...")
-                cap.release()
+                try:
+                    cap.release()
+                except Exception:
+                    pass
                 time.sleep(s.RECONNECT_DELAY_SEC)
                 cap = open_capture(src)
                 continue
